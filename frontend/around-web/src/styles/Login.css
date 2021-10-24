@@ -1,0 +1,16 @@
+.login-form {
+    width: 350px;
+    margin: 0 auto;
+}
+
+.login-form-button {
+    width: 350px;
+    font-size: 15px;
+}
+
+.login-icon {
+    text-align: center;
+    color: #282c34;
+    font-size: 80px;
+    margin-top: 20%;
+}
