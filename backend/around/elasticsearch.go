@@ -9,7 +9,7 @@ import (
 func readFromES(query elastic.Query, index string) (*elastic.SearchResult, error) {
 	client, err := elastic.NewClient(
 		elastic.SetURL(ES_URL),
-		elastic.SetBasicAuth("your_elasticsearch_user", "your_elasticsearch_password"))
+		elastic.SetBasicAuth(ES_USERNAME, ES_PWD))
 	if err != nil {
 		return nil, err
 	}
@@ -24,4 +24,20 @@ func readFromES(query elastic.Query, index string) (*elastic.SearchResult, error
 	}
 
 	return searchResult, nil
+}
+
+func saveToES(i interface{}, index string, id string) error {
+	client, err := elastic.NewClient(
+		elastic.SetURL(ES_URL),
+		elastic.SetBasicAuth(ES_USERNAME, ES_PWD))
+	if err != nil {
+		return err
+	}
+
+	_, err = client.Index().
+		Index(index).
+		Id(id).
+		BodyJson(i).
+		Do(context.Background())
+	return err
 }
