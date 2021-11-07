@@ -41,3 +41,20 @@ func saveToES(i interface{}, index string, id string) error {
 		Do(context.Background())
 	return err
 }
+
+func deleteFromES(query elastic.Query, index string) error {
+	client, err := elastic.NewClient(
+		elastic.SetURL(ES_URL),
+		elastic.SetBasicAuth(ES_USERNAME, ES_PWD))
+	if err != nil {
+		return err
+	}
+
+	_, err = client.DeleteByQuery().
+		Index(index).
+		Query(query).
+		Pretty(true).
+		Do(context.Background())
+
+	return err
+}

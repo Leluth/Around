@@ -57,3 +57,11 @@ func savePost(post *Post, file multipart.File) error {
 
 	return saveToES(post, POST_INDEX, post.Id)
 }
+
+func deletePost(id string, user string) error {
+	query := elastic.NewBoolQuery()
+	query.Must(elastic.NewTermQuery("id", id))
+	query.Must(elastic.NewTermQuery("user", user))
+
+	return deleteFromES(query, POST_INDEX)
+}
