@@ -31,7 +31,7 @@ function SearchBar(props) {
     return (
         <div className="search-bar">
             <Search
-                placeholder="input search text"
+                placeholder="Input search text"
                 enterButton="Search"
                 size="large"
                 allowClear

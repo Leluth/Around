@@ -16,11 +16,14 @@ function Home(props) {
         keyword: ""
     });
 
+    // do search
     useEffect(() => {
-        const { type, keyword } = searchOption;
+        // first time -> did mount -> search option: {type: All, keyword: " "}
+        // after the first time -> did update -> search option: {type: All/User/Keyword, keyword: keyword}
         fetchPost(searchOption);
     }, [searchOption]);
 
+    // fetch post from the server
     const fetchPost = (option) => {
         const { type, keyword } = option;
         let url = "";
@@ -54,14 +57,17 @@ function Home(props) {
     };
 
     const renderPosts = (type) => {
+        // case 1: no data -> return no data
         if (!posts || posts.length === 0) {
             return <div>No data!</div>;
         }
+        // case 2: type === image => filter images
         if (type === "image") {
             const imageArr = posts
                 .filter((item) => item.type === "image")
                 .map((image) => {
                     return {
+                        postId: image.id,
                         src: image.url,
                         user: image.user,
                         caption: image.message,
@@ -73,6 +79,7 @@ function Home(props) {
 
             return <PhotoGallery images={imageArr} />;
         } else if (type === "video") {
+            // case 3: type === video => filter videos
             return (
                 <Row gutter={32}>
                     {posts
