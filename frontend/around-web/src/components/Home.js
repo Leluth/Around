@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Tabs, message, Row, Col, Button } from "antd";
+import React, {useEffect, useState} from "react";
+import {Col, message, Row, Tabs, Tooltip} from "antd";
 import axios from "axios";
 
 import SearchBar from "./SearchBar";
 import PhotoGallery from "./PhotoGallery";
-import { SEARCH_KEY, BASE_URL, TOKEN_KEY } from "../constants";
+import {BASE_URL, SEARCH_KEY, TOKEN_KEY} from "../constants";
+import CreatePostButton from "./CreatePostButton";
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 function Home(props) {
     const [posts, setPost] = useState([]);
@@ -15,6 +16,11 @@ function Home(props) {
         type: SEARCH_KEY.all,
         keyword: ""
     });
+
+    const handleSearch = (option) => {
+        const {type, keyword} = option;
+        setSearchOption({type: type, keyword: keyword});
+    };
 
     // do search
     useEffect(() => {
@@ -25,7 +31,7 @@ function Home(props) {
 
     // fetch post from the server
     const fetchPost = (option) => {
-        const { type, keyword } = option;
+        const {type, keyword} = option;
         let url = "";
 
         if (type === SEARCH_KEY.all) {
@@ -77,7 +83,7 @@ function Home(props) {
                     };
                 });
 
-            return <PhotoGallery images={imageArr} />;
+            return <PhotoGallery images={imageArr}/>;
         } else if (type === "video") {
             // case 3: type === video => filter videos
             return (
@@ -86,10 +92,11 @@ function Home(props) {
                         .filter((post) => post.type === "video")
                         .map((post) => (
                             <Col span={8} key={post.url}>
-                                <video src={post.url} controls={true} className="video-block" />
-                                <p>
-                                    {post.user}: {post.message}
-                                </p>
+                                <Tooltip title={`${post.user} : ${post.message}`}>
+                                    <div className="divVideo">
+                                        <video src={post.url} controls={true} className="video"/>
+                                    </div>
+                                </Tooltip>
                             </Col>
                         ))}
                 </Row>
@@ -97,10 +104,19 @@ function Home(props) {
         }
     };
 
-    const operations = <Button>Upload</Button>;
+    const showPost = (type) => {
+        console.log("type -> ", type);
+        setActiveTab(type);
+
+        setTimeout(() => {
+            setSearchOption({type: SEARCH_KEY.all, keyword: ""});
+        }, 3000);
+    };
+
+    const operations = <CreatePostButton onShowPost={showPost}/>;
     return (
         <div className="home">
-            <SearchBar />
+            <SearchBar handleSearch={handleSearch}/>
             <div className="display">
                 <Tabs
                     onChange={(key) => setActiveTab(key)}

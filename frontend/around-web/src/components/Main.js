@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Route, Switch, Redirect} from "react-router";
+import React from "react";
+import {Redirect, Route, Switch} from "react-router";
 
 import Login from "./Login";
 import Register from "./Register";

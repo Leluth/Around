@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {Input, message, Radio} from "antd";
 
-import { SEARCH_KEY } from "../constants";
+import {SEARCH_KEY} from "../constants";
 
-const { Search } = Input;
+const {Search} = Input;
 
 function SearchBar(props) {
     const [searchType, setSearchType] = useState(SEARCH_KEY.all);
@@ -13,9 +13,9 @@ function SearchBar(props) {
         const searchType = e.target.value;
         setSearchType(searchType);
         setError("");
-        // if (searchType === SEARCH_KEY.all) {
-        //   props.handleSearch({ type: searchType, keyword: "" });
-        // }
+        if (searchType === SEARCH_KEY.all) {
+            props.handleSearch({type: searchType, keyword: ""});
+        }
     };
 
     const handleSearch = (value) => {
@@ -25,7 +25,7 @@ function SearchBar(props) {
             return;
         }
         setError("");
-        // props.handleSearch({ type: searchType, keyword: value });
+        props.handleSearch({type: searchType, keyword: value});
     };
 
     return (

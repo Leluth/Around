@@ -1,6 +1,6 @@
 import React from "react";
-import {Form, Input, Button, message} from "antd";
-import {UserOutlined, LockOutlined, AntCloudOutlined} from "@ant-design/icons";
+import {Button, Form, Input, message} from "antd";
+import {AntCloudOutlined, LockOutlined, UserOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
 import axios from "axios";
 

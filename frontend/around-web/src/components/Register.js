@@ -1,18 +1,18 @@
 import React from "react";
-import { Form, Input, Button, message } from 'antd';
+import {Button, Form, Input, message} from 'antd';
 import axios from 'axios';
 
-import { BASE_URL } from "../constants";
+import {BASE_URL} from "../constants";
 import {AntCloudOutlined, LockOutlined, UserOutlined} from "@ant-design/icons";
 
 const formItemLayout = {
     labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
+        xs: {span: 24},
+        sm: {span: 7},
     },
     wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 17 },
+        xs: {span: 24},
+        sm: {span: 17},
     },
 };
 const tailFormItemLayout = {
@@ -34,7 +34,7 @@ function Register(props) {
     const onFinish = values => {
         console.log('Received values of form: ', values);
         // step1: get username and password
-        const { username, password } = values;
+        const {username, password} = values;
         const opt = {
             method: 'POST',
             url: `${BASE_URL}/signup`,
@@ -42,19 +42,19 @@ function Register(props) {
                 username: username,
                 password: password
             },
-            headers: { 'content-type': 'application/json'}
+            headers: {'content-type': 'application/json'}
         };
         // step2: send register info to the server
         axios(opt)
-            .then( response => {
+            .then(response => {
                 console.log(response)
                 // case1: registered success, display login
-                if(response.status === 200) {
+                if (response.status === 200) {
                     message.success('Registration succeed!');
                     props.history.push('/login');
                 }
             })
-            .catch( error => {
+            .catch(error => {
                 // case2: registered fail, display error
                 console.log('register failed: ', error.message);
                 message.error('Registration failed!');
@@ -122,7 +122,7 @@ function Register(props) {
                         required: true,
                         message: 'Please confirm your password!',
                     },
-                    ({ getFieldValue }) => ({
+                    ({getFieldValue}) => ({
                         validator(rule, value) {
                             if (!value || getFieldValue('password') === value) {
                                 return Promise.resolve();
